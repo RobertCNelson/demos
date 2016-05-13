@@ -3,15 +3,13 @@
 port="/dev/ttyS2"
  
 send_data () {
-        date_cksum=$(echo ${data} | cksum | awk '{print $1}')
+#        date_cksum=$(echo ${data} | cksum | awk '{print $1}')
         echo "\$${data}*${date_cksum}#"
-        echo -e "\$${data}*${date_cksum}#\n" > ${port}
+#        echo -e "\$${data}*${date_cksum}#\n" > ${port}
 }
  
-stty -F ${port} raw speed 9600 &> /dev/null
- 
 if [ ! -f /sys/bus/iio/devices/iio:device0/in_temp_raw ] ; then
-    echo si7005 0x40 > /sys/bus/i2c/devices/i2c-2/new_device
+    echo si7005 0x40 > /sys/bus/i2c/devices/i2c-1/new_device
 fi
  
 in_temp_raw=$(cat /sys/bus/iio/devices/iio:device0/in_temp_raw || true)
