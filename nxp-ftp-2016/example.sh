@@ -1,11 +1,15 @@
 #!/bin/bash -e
  
-port="/dev/ttyS2"
- 
+. /home/debian/id.sh
+
 send_data () {
 #        date_cksum=$(echo ${data} | cksum | awk '{print $1}')
         echo "\$${data}*${date_cksum}#"
-#        echo -e "\$${data}*${date_cksum}#\n" > ${port}
+
+curl --request POST \
+--url http://tx11wfm01c.cloudapp.net/api/beta/parameters/ \
+--header 'content-type: application/json' \
+--data '{"dashboard":"$dashboard_id","parameters":[{"r":"$sensor_1","v":$temp},{"r":"$sensor_2","v":26}]}'
 }
  
 if [ ! -f /sys/bus/iio/devices/iio:device1/in_temp_raw ] ; then
@@ -23,3 +27,4 @@ if [ ! "x${in_temp_raw}" = "x" ] && [ ! "x${in_temp_offset}" = "x" ] && [ ! "x${
     data="TEXT,TEMP0,${temp},"
     send_data
 fi
+
