@@ -6,7 +6,7 @@ send_data () {
 	#echo "`date` temp: $temp: hum: $hum" | systemd-cat
 	echo "`date` temp: $temp" | systemd-cat
 	exo write ${cik} ${rid} --value=${temp}
-	sleep 10
+	sleep 13
 }
 
 if [ ! -f /sys/bus/iio/devices/iio:device0/in_temp_raw ] ; then
